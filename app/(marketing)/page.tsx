@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 
-export default function Home() {
+export default function MarketingPage() {
 	return (
 		<div className="h-full w-full flex flex-col items-center justify-center gap-4">
 			<Button>Default</Button>
