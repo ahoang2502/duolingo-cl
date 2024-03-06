@@ -1,31 +1,12 @@
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 export default function MarketingPage() {
 	return (
-		<div className="h-full w-full flex flex-col items-center justify-center gap-4">
-			<Button>Default</Button>
-
-			<Button variant="primary">Primary</Button>
-
-			<Button variant="primaryOutline">Primary Outline</Button>
-
-			<Button variant="secondary">Secondary</Button>
-
-			<Button variant="secondaryOutline">Secondary Outline</Button>
-
-			<Button variant="danger">Danger</Button>
-
-			<Button variant="dangerOutline">Danger Outline</Button>
-
-			<Button variant="super">Super</Button>
-
-			<Button variant="superOutline">Super Outline</Button>
-
-			<Button variant="ghost">Ghost</Button>
-
-			<Button variant="sidebar">Sidebar</Button>
-
-			<Button variant="sidebarOutline">Sidebar Outline</Button>
+		<div className="max-w-[988px] mx-auto flex-1 w-full flex flex-col lg:flex-row items-center justify-center p-4 gap-2">
+			<div className="relative w-[240px] h-[240px] lg:w-[424px] lg:h-[424px] mb-8 lg:mb-0">
+				<Image src="/hero.svg" alt="hero image" />
+			</div>
 		</div>
 	);
 }
