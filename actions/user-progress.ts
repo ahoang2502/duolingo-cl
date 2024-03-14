@@ -2,7 +2,7 @@
 
 import { auth, currentUser } from "@clerk/nextjs";
 
-import { getUserProgress, gteCourseById } from "@/db/queries";
+import { getUserProgress, getCourseById } from "@/db/queries";
 import db from "@/db/drizzle";
 import { userProgress } from "@/db/schema";
 import { revalidatePath } from "next/cache";
@@ -14,7 +14,7 @@ export const upsertUserProgress = async (courseId: number) => {
 
 	if (!userId || !user) throw new Error("Unauthorized");
 
-	const course = await gteCourseById(courseId);
+	const course = await getCourseById(courseId);
 	if (!course) throw new Error("Course not found");
 
 	// if (!course.units.length || !course.units[0].lessons.length)
