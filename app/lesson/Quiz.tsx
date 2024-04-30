@@ -6,6 +6,7 @@ import { challengeOptions, challenges } from "@/db/schema";
 import { Header } from "./Header";
 import { QuestionBubble } from "./QuestionBubble";
 import { Challenge } from "./Challenge";
+import { Footer } from "./Footer";
 
 type Props = {
 	initialLessonId: number;
@@ -69,21 +70,25 @@ export const Quiz = ({
 							{title}
 						</h1>
 
-						{challenge.type === "ASSIST" && (
-							<QuestionBubble question={challenge.question} />
-						)}
+						<div className="">
+							{challenge.type === "ASSIST" && (
+								<QuestionBubble question={challenge.question} />
+							)}
 
-						<Challenge
-							options={options}
-							onSelect={onSelect}
-							status={status}
-							selectedOption={selectedOption}
-							disabled={false}
-							type={challenge.type}
-						/>
+							<Challenge
+								options={options}
+								onSelect={onSelect}
+								status={status}
+								selectedOption={selectedOption}
+								disabled={false}
+								type={challenge.type}
+							/>
+						</div>
 					</div>
 				</div>
 			</div>
+
+			<Footer disabled={!selectedOption} status={status} onCheck={() => {}} />
 		</>
 	);
 };
