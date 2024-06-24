@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { reduceHearts } from "@/actions/user-progress";
-import { challengeOptions, challenges } from "@/db/schema";
+import { challengeOptions, challenges, userSubscription } from "@/db/schema";
 import { MAX_HEARTS, POINTS_PER_CHALLENGE } from "@/lib/constants";
 import { useHeartsModal } from "@/store/useHeartsModal";
 import { Challenge } from "./Challenge";
@@ -27,7 +27,11 @@ type Props = {
 	})[];
 	initialHearts: number;
 	initialPercentage: number;
-	userSubscription: any;
+	userSubscription:
+		| (typeof userSubscription.$inferSelect & {
+				isActive: boolean;
+		  })
+		| null;
 };
 
 export const Quiz = ({
