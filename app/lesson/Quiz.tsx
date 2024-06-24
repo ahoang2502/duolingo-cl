@@ -3,19 +3,21 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-import { useAudio, useWindowSize } from "react-use";
-import { toast } from "sonner";
 import Confetti from "react-confetti";
+import { useAudio, useWindowSize, useMount } from "react-use";
+import { toast } from "sonner";
 
 import { upsertChallengeProgress } from "@/actions/challenge-progress";
 import { reduceHearts } from "@/actions/user-progress";
 import { challengeOptions, challenges } from "@/db/schema";
 import { MAX_HEARTS, POINTS_PER_CHALLENGE } from "@/lib/constants";
+import { useHeartsModal } from "@/store/useHeartsModal";
 import { Challenge } from "./Challenge";
 import { Footer } from "./Footer";
 import { Header } from "./Header";
 import { QuestionBubble } from "./QuestionBubble";
 import { ResultCard } from "./ResultCard";
+import { usePracticeModal } from "@/store/usePracticeModal";
 
 type Props = {
 	initialLessonId: number;
@@ -39,8 +41,19 @@ export const Quiz = ({
 	const router = useRouter();
 	const { width, height } = useWindowSize();
 
+	const { open: openHeartsModal } = useHeartsModal();
+	const { open: openPracticeModal } = usePracticeModal();
+
+	useMount(() => {
+		if (initialPercentage === 100) {
+			openPracticeModal();
+		}
+	});
+
 	const [hearts, setHearts] = useState(initialHearts);
-	const [percentage, setPercentage] = useState(initialPercentage);
+	const [percentage, setPercentage] = useState(() => {
+		return initialPercentage === 100 ? 0 : initialPercentage;
+	});
 	const [lessonId] = useState(initialLessonId);
 
 	const [challenges] = useState(initialLessonChallenges);
@@ -104,7 +117,7 @@ export const Quiz = ({
 				upsertChallengeProgress(challenge.id)
 					.then((res) => {
 						if (res?.error === "hearts") {
-							console.error("Missing hearts");
+							openHeartsModal();
 							return;
 						}
 
@@ -124,9 +137,7 @@ export const Quiz = ({
 				reduceHearts(challenge.id)
 					.then((res) => {
 						if (res?.error === "hearts") {
-							console.error("Missing hearts");
-							toast.error("No more hearts");
-
+							openHeartsModal();
 							return;
 						}
 
