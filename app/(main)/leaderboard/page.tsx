@@ -2,15 +2,17 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { FeedWrapper } from "@/components/FeedWrapper";
+import { Promo } from "@/components/Promo";
+import { Quests } from "@/components/Quests";
 import { StickyWrapper } from "@/components/StickyWrapper";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
 import { UserProgress } from "@/components/UserProgress";
 import {
 	getTopTenUsers,
 	getUserProgress,
 	getUserSubscription,
 } from "@/db/queries";
-import { Separator } from "@/components/ui/separator";
-import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 const LeaderboardPage = async () => {
 	const userProgressData = getUserProgress();
@@ -27,6 +29,8 @@ const LeaderboardPage = async () => {
 		redirect("/courses");
 	}
 
+	const isPro = !!userSubscription?.isActive;
+
 	return (
 		<div className="flex flex-row-reverse gap-[48px] px-6">
 			<StickyWrapper>
@@ -34,8 +38,11 @@ const LeaderboardPage = async () => {
 					activeCourse={userProgress.activeCourse}
 					hearts={userProgress.hearts}
 					points={userProgress.points}
-					hasActiveSubscription={!!userSubscription?.isActive}
+					hasActiveSubscription={isPro}
 				/>
+
+				{isPro && <Promo />}
+				<Quests points={userProgress.points} />
 			</StickyWrapper>
 
 			<FeedWrapper>
