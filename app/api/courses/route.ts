@@ -11,3 +11,18 @@ export const GET = async () => {
 
 	return NextResponse.json(data);
 };
+
+export const POST = async (req: Request) => {
+	if (!isAdmin()) return new NextResponse("Unauthorized", { status: 401 });
+
+	const body = await req.json();
+
+	const data = await db
+		.insert(courses)
+		.values({
+			...body,
+		})
+		.returning();
+
+	return NextResponse.json(data[0]);
+};
