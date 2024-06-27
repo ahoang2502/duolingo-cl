@@ -4,7 +4,8 @@ import simpleRestProvider from "ra-data-simple-rest";
 import { Admin, Resource } from "react-admin";
 
 import { CourseCreate } from "../course/Create";
-import { CourseList } from "../course/list";
+import { CourseList } from "../course/List";
+import { CourseEdit } from "../course/Edit";
 
 const dataProvider = simpleRestProvider("/api");
 
@@ -17,6 +18,7 @@ const App = () => {
 				recordRepresentation="title"
 				list={CourseList}
                 create={CourseCreate}
+				edit={CourseEdit}
 			/>
 		</Admin>
 	);
